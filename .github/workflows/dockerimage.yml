@@ -21,4 +21,8 @@ jobs:
     - name: Install composer dependencies
       run: docker-compose exec -T -u root appquarium-php-apiuser composer install --prefer-dist --no-scripts --no-progress -q -o
     - name: Create database
-      run: docker-compose exec -T -u root appquarium-php-apiuser bin/console d:m:s:c
+      run: docker-compose exec -T -u root appquarium-php-apiuser bin/console d:m:s:c --env=test
+    - name: Load fixtures
+        run: docker-compose exec -T -u root appquarium-php-apiuser bin/console t:f:l --env=test
+    - name: Launch tests
+        run: docker-compose exec -T -u root appquarium-php-apiuser bin/phpunit
