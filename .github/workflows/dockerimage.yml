@@ -18,3 +18,5 @@ jobs:
       run: docker-compose up -d
     - name: Check composer
       run: docker-compose exec -T appquarium-php-apiuser composer validate
+    - name: Install composer dependencies
+      run: docker-compose exec -T appquarium-php-apiuser composer install --prefer-dist --no-scripts -q -o --no-progress --no-suggest
