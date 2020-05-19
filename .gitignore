@@ -2,24 +2,26 @@
 .idea
 
 ###> symfony/framework-bundle ###
-/apiUser/.env.local
-/apiUser/.env.local.php
-/apiUser/.env.*.local
-/apiUser/config/secrets/prod/prod.decrypt.private.php
-/apiUser/public/bundles/
-/apiUser/var/
-/apiUser/vendor/
+apiUser/.env.local
+apiUser/.env.local.php
+apiUser/.env.*.local
+apiUser/config/secrets/prod/prod.decrypt.private.php
+apiUser/public/bundles/
+apiUser/var/
+apiUser/vendor/*
+!apiUser/vendor/.gitkeep
 ###< symfony/framework-bundle ###
 
-/apiUser/.env.dev
+apiUser/.env.dev
 
-/apiUser/tests/test_db/
+apiUser/tests/test_db/
 
-/apiUser/tests/Fixtures/env.json
+apiUser/tests/Fixtures/env.json
 
 ###> symfony/phpunit-bridge ###
-/apiUser/.phpunit
-/apiUser/.phpunit.result.cache
-/apiUser/phpunit.xml
-/apiUser/bin/.phpunit
+apiUser/.phpunit
+apiUser/.phpunit.result.cache
+apiUser/phpunit.xml
+apiUser/bin/.phpunit
 ###< symfony/phpunit-bridge ###
+
