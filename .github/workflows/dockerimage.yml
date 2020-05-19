@@ -19,7 +19,7 @@ jobs:
     - name: Setup for test
       run: |
         docker-compose exec -T appquarium-php-apiuser composer validate
-        docker-compose exec -T appquarium-php-apiuser composer install --prefer-dist --no-progress
+        docker-compose exec -T appquarium-php-apiuser composer install --prefer-dist --no-scripts --no-progress -q -o
         docker-compose exec -T appquarium-php-apiuser bin/console d:m:s:c
         docker-compose exec -T appquarium-php-apiuser composer reset-db-test
     - name: Launch tests
