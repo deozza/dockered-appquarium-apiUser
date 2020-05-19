@@ -1,0 +1,58 @@
+method: db
+save: id
+class: App\Document\User
+elements:
+  userActive:
+    body:
+      username: userActive
+      email: userActive@gmail.com
+      password: userActive
+      active: true
+  userActive2:
+    body:
+      username: userActive2
+      email: userActive2@gmail.com
+      password: userActive2
+      active: true
+  userInactive:
+    body:
+      username: userInactive
+      email: userInactive@gmail.com
+      password: userInactive
+      active: false
+  userFishEditor:
+    body:
+      username: userFishEditor
+      email: userFishEditor@gmail.com
+      password: userFishEditor
+      active: true
+      roles:
+        - ROLE_USER
+        - ROLE_FISH_EDITOR
+  userPlantEditor:
+    body:
+      username: userPlantEditor
+      email: userPlantEditor@gmail.com
+      password: userPlantEditor
+      active: true
+      roles:
+        - ROLE_USER
+        - ROLE_PLANT_EDITOR
+  userInvertebrateEditor:
+    body:
+      username: userInvertebrateEditor
+      email: userInvertebrateEditor@gmail.com
+      password: userInvertebrateEditor
+      active: true
+      roles:
+        - ROLE_USER
+        - ROLE_INVERTEBRATE_EDITOR
+  userAdmin:
+    body:
+      username: userAdmin
+      email: userAdmin@gmail.com
+      password: userAdmin
+      active: true
+      roles:
+        - ROLE_USER
+        - ROLE_ADMIN
