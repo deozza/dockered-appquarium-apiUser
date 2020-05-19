@@ -1,4 +1,6 @@
 {
+    "name": "appquarium/dockered-apiuser",
+    "description": "A dockered container for the user microservice of appquarium",
     "type": "project",
     "license": "proprietary",
     "require": {

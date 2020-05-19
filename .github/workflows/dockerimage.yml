@@ -16,10 +16,10 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker containers
       run: docker-compose up -d
-    - name: Install dependencies
-      run: docker-compose exec -T appquarium-php-apiuser composer install
-    - name: Setup test database
+    - name: Setup for test
       run: |
+        docker-compose exec -T appquarium-php-apiuser composer validate
+        docker-compose exec -T appquarium-php-apiuser composer install --prefer-dist --no-progress
         docker-compose exec -T appquarium-php-apiuser bin/console d:m:s:c
         docker-compose exec -T appquarium-php-apiuser composer reset-db-test
     - name: Launch tests
