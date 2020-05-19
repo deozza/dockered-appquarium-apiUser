@@ -17,6 +17,6 @@ jobs:
     - name: Build the Docker containers
       run: docker-compose up -d
     - name: Check composer
-      run: docker-compose exec -T appquarium-php-apiuser composer validate
+      run: docker-compose exec -T -u root appquarium-php-apiuser composer validate
     - name: Install composer dependencies
-      run: docker-compose exec -T appquarium-php-apiuser composer update
+      run: docker-compose exec -T -u root appquarium-php-apiuser composer update
