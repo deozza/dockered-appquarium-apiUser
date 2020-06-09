@@ -1,0 +1,15 @@
+*
+!.docker/
+!apiUser/bin
+!apiUser/config
+!apiUser/public
+!apiUser/src
+!apiUser/tests
+!apiUser/.env
+!apiUser/.env.test
+!apiUser/composer.json
+!apiUser/composer.lock
+!apiUser/phpunit.xml.dist
+!apiUser/symfony.lock
+
+

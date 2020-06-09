@@ -13,14 +13,14 @@ services:
       - 27017:27017
 
   appquarium-php-apiuser:
+    image: deozza/appquarium-apiuser
     build:
       context: .
       dockerfile: .docker/php/Dockerfile
     container_name: appquarium-php-apiuser
     restart: on-failure
-    volumes:
-      - ./apiUser/:/var/www/apiUser
-      - .docker/php/ini:/usr/local/etc/php
+    environment:
+      PHP_IDE_CONFIG: serverName=test-app
     user: '1000:1000'
     ports:
       - 8001:8000

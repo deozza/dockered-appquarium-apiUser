@@ -26,3 +26,9 @@ jobs:
       run: docker-compose exec -T -u root appquarium-php-apiuser bin/console t:f:l --env=test
     - name: Launch tests
       run: docker-compose exec -T -u root appquarium-php-apiuser bin/phpunit
+    - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: deozza/appquarium-apiuser
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
