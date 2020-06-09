@@ -22,5 +22,3 @@ services:
     environment:
       PHP_IDE_CONFIG: serverName=test-app
     user: '1000:1000'
-    ports:
-      - 8001:8000
