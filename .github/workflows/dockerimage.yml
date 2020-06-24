@@ -3,8 +3,23 @@ name: Docker Image CI
 on:
   push:
     branches: [ master ]
+    paths:
+      - 'apiUser/config/**'
+      - 'apiUser/src/**'
+      - 'apiUser/tests/**'
+      - '.docker/**'
+      - '.github/**'
+      - 'docker-compose.**'
+
   pull_request:
     branches: [ master ]
+    paths:
+      - 'apiUser/config/**'
+      - 'apiUser/src/**'
+      - 'apiUser/tests/**'
+      - '.docker/**'
+      - '.github/**'
+      - 'docker-compose.**'
 
 jobs:
   build:
