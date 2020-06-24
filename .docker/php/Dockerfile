@@ -44,8 +44,6 @@ COPY .docker/php/xdebug.ini /etc/php/conf.d/
 
 COPY apiUser/ /var/www/apiUser
 
-ENV APP_ENV=test
-
 RUN composer install
 
 FROM base AS prod
