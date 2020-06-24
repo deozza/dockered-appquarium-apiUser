@@ -7,15 +7,13 @@ on:
     branches: [ master ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker containers
-      run: docker-compose up -d
+      run: docker-compose -f docker-compose.test.yml up  -d --build
     - name: Create database
       run: docker-compose exec -T -u root appquarium-php-apiuser bin/console d:m:s:c --env=test
     - name: Load fixtures
@@ -27,6 +25,10 @@ jobs:
     - name: Set outputs
       id: vars
       run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+    - name: Putting down test containers
+      run: docker-compose -f docker-compose.test.yml down
+    - name: Build the Docker prod containers
+      run: docker-compose -f docker-compose.prod.yml build
     - name: Tag image
       run: docker tag deozza/appquarium-apiuser deozza/appquarium-apiuser:${{ steps.vars.outputs.sha_short }}
     - name: Push to Docker tagged image
