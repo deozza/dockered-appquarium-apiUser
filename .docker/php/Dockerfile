@@ -1,4 +1,4 @@
-FROM php:7.3-fpm
+FROM php:7.3-fpm as base
 
 RUN apt-get update \
     && apt-get install -y libzip-dev zip libcurl4-openssl-dev pkg-config libssl-dev gnupg
@@ -8,11 +8,6 @@ RUN set -xe \
 
 RUN pecl install apcu \
     && docker-php-ext-enable apcu
-
-RUN pecl install xdebug \
-    && docker-php-ext-enable xdebug
-
-ADD .docker/php/xdebug.ini /etc/php/conf.d/
 
 RUN pecl install mongodb
 
@@ -24,8 +19,6 @@ RUN  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 68818C72E52529
 COPY .docker/php/ini/conf.d/memory_limit.ini /usr/local/etc/php/conf.d
 COPY .docker/php/ini/conf.d/mongodb.ini /usr/local/etc/php/conf.d
 
-COPY apiUser/ /var/www/apiUser
-
 RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls \
     && mv composer.phar /usr/local/bin/composer
 
@@ -36,8 +29,29 @@ RUN PATH=$PATH:/var/www/apiUser/vendor/bin:bin
 
 WORKDIR /var/www/apiUser
 
-RUN composer install
+ENV APP_ENV=dev
 
 EXPOSE 9000
 
 CMD ["php-fpm"]
+
+FROM base AS test
+
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
+COPY .docker/php/xdebug.ini /etc/php/conf.d/
+
+COPY apiUser/ /var/www/apiUser
+
+ENV APP_ENV=test
+
+RUN composer install
+
+FROM base AS prod
+
+COPY apiUser/ /var/www/apiUser
+
+ENV APP_ENV=prod
+
+RUN composer install --no-dev --optimize-autoloader

@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+  appquarium-php-apiuser:
+    image: deozza/appquarium-apiuser
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+      target: prod
+    container_name: appquarium-php-apiuser
+    restart: on-failure
+    user: '1000:1000'
