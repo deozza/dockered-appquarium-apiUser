@@ -17,13 +17,8 @@ services:
     build:
       context: .
       dockerfile: .docker/php/Dockerfile
-      target: base
     container_name: appquarium-php-apiuser
     restart: on-failure
     environment:
       PHP_IDE_CONFIG: serverName=test-app
-    volumes:
-      - ./apiUser/:/var/www/apiUser
     user: '1000:1000'
-    ports:
-    - 8001:8001

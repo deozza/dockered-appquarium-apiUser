@@ -1,4 +1,4 @@
-FROM php:7.3-fpm as base
+FROM php:7.3-fpm
 
 RUN apt-get update \
     && apt-get install -y libzip-dev zip libcurl4-openssl-dev pkg-config libssl-dev gnupg
@@ -19,6 +19,8 @@ RUN  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 68818C72E52529
 COPY .docker/php/ini/conf.d/memory_limit.ini /usr/local/etc/php/conf.d
 COPY .docker/php/ini/conf.d/mongodb.ini /usr/local/etc/php/conf.d
 
+COPY apiUser/ /var/www/apiUser
+
 RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls \
     && mv composer.phar /usr/local/bin/composer
 
@@ -29,25 +31,8 @@ RUN PATH=$PATH:/var/www/apiUser/vendor/bin:bin
 
 WORKDIR /var/www/apiUser
 
-ENV APP_ENV=dev
+RUN composer install
 
 EXPOSE 9000
 
 CMD ["php-fpm"]
-
-FROM base AS test
-
-COPY apiUser/ /var/www/apiUser
-
-ENV APP_ENV=test
-
-RUN composer validate \
-    && composer install --prefer-dist --no-scripts --no-progress -q -o
-
-FROM base AS prod
-
-COPY apiUser/ /var/www/apiUser
-
-ENV APP_ENV=prod
-
-RUN composer install --no-dev --optimize-autoloader

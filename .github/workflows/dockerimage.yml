@@ -2,7 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - develop
+      - hotfix
     paths:
       - 'apiUser/config/**'
       - 'apiUser/src/**'
@@ -12,7 +14,8 @@ on:
       - 'docker-compose.**'
 
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
     paths:
       - 'apiUser/config/**'
       - 'apiUser/src/**'
