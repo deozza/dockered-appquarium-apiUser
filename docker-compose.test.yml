@@ -9,7 +9,3 @@ services:
     container_name: appquarium-php-apiuser
     restart: on-failure
     user: '1000:1000'
-    depends_on:
-      - appquarium-mongo-apiuser
-    links:
-      - appquarium-mongo-apiuser
