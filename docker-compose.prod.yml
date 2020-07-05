@@ -4,8 +4,10 @@ services:
     image: deozza/appquarium-apiuser
     build:
       context: .
-      dockerfile: .docker/php/Dockerfile
-      target: prod
+      dockerfile: .docker/php/Dockerfile-prod
     container_name: appquarium-php-apiuser
+    environment:
+      CORS_ALLOW_ORIGIN: "https://apigateway.appquarium.fr"
+      APP_ENV: prod
     restart: on-failure
     user: '1000:1000'
