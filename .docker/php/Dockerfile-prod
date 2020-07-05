@@ -31,6 +31,8 @@ RUN PATH=$PATH:/var/www/apiUser/vendor/bin:bin
 
 WORKDIR /var/www/apiUser
 
+RUN chmod -R 777 ./var
+
 RUN composer install --no-dev --optimize-autoloader --prefer-dist
 
 EXPOSE 9000
