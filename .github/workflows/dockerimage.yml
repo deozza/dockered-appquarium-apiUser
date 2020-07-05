@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the Docker containers
-        run: docker-compose -f docker-compose.test.yml up  -d
+        run: docker-compose -f docker-compose.test.yml up  -d --build --no-cache
       - name: Check docker containers status
         run: docker ps
       - name: Create database
