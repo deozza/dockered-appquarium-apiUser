@@ -27,6 +27,8 @@ RUN mkdir -p /var/www/.composer && chown -R www-data /var/www/.composer
 
 RUN PATH=$PATH:/var/www/apiUser/vendor/bin:bin
 
+FROM base as dev
+
 WORKDIR /var/www/apiUser
 
 ENV APP_ENV=dev
@@ -39,15 +41,27 @@ FROM base AS test
 
 COPY apiUser/ /var/www/apiUser
 
+WORKDIR /var/www/apiUser
+
 ENV APP_ENV=test
 
 RUN composer validate \
     && composer install --prefer-dist --no-scripts --no-progress -q -o
 
+EXPOSE 9000
+
+CMD ["php-fpm"]
+
 FROM base AS prod
 
 COPY apiUser/ /var/www/apiUser
 
+WORKDIR /var/www/apiUser
+
 ENV APP_ENV=prod
 
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --prefer-dist
+
+EXPOSE 9000
+
+CMD ["php-fpm"]
