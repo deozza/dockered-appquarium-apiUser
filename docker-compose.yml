@@ -17,7 +17,7 @@ services:
     build:
       context: .
       dockerfile: .docker/php/Dockerfile
-      target: base
+      target: dev
     container_name: appquarium-php-apiuser
     restart: on-failure
     environment:

@@ -44,6 +44,8 @@ COPY apiUser/ /var/www/apiUser
 WORKDIR /var/www/apiUser
 
 ENV APP_ENV=test
+ENV MONGODB_URL="mongodb+srv://edenn:CmzVS2udbw9aRGJx@appquarium-microservice-rjsyh.mongodb.net/test-apiuser?retryWrites=true&w=majority"
+ENV MONGODB_DB="test-apiuser"
 
 RUN composer validate \
     && composer install --prefer-dist --no-scripts --no-progress -q -o
