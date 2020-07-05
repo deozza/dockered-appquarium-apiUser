@@ -37,14 +37,12 @@ CMD ["php-fpm"]
 
 FROM base AS test
 
-RUN pecl install xdebug \
-    && docker-php-ext-enable xdebug
-
-COPY .docker/php/xdebug.ini /etc/php/conf.d/
-
 COPY apiUser/ /var/www/apiUser
 
-RUN composer install
+ENV APP_ENV=test
+
+RUN composer validate \
+    && composer install --prefer-dist --no-scripts --no-progress -q -o
 
 FROM base AS prod
 
