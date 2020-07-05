@@ -1,0 +1,5 @@
+nelmio_cors:
+    defaults:
+        origin_regex: false
+        allow_origin: ['%env(CORS_ALLOW_ORIGIN)%']
+        forced_allow_origin_value: *
