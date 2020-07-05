@@ -61,6 +61,7 @@ COPY apiUser/ /var/www/apiUser
 WORKDIR /var/www/apiUser
 
 ENV APP_ENV=prod
+ENV CORS_ALLOW_ORIGIN="https://apigateway.appquarium.fr"
 
 RUN composer install --no-dev --optimize-autoloader --prefer-dist
 
