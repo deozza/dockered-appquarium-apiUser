@@ -17,7 +17,6 @@ services:
     build:
       context: .
       dockerfile: .docker/php/Dockerfile.test
-      target: test
     container_name: appquarium-php-apiuser
     restart: on-failure
     user: '1000:1000'
