@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, backtrack ]
   pull_request:
     branches: [ master ]
 
@@ -24,18 +24,3 @@ jobs:
       run: docker-compose exec -T -u root appquarium-php-apiuser bin/console d:m:s:c --env=test
     - name: Load fixtures
       run: docker-compose exec -T -u root appquarium-php-apiuser bin/console t:f:l --env=test
-    - name: Launch tests
-      run: docker-compose exec -T -u root appquarium-php-apiuser bin/phpunit
-    - name: Login to Docker
-      run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-    - name: Set outputs
-      id: vars
-      run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-    - name: Tag image
-      run: docker tag deozza/appquarium-apiuser deozza/appquarium-apiuser:${{ steps.vars.outputs.sha_short }}
-    - name: Push to Docker tagged image
-      run: docker push deozza/appquarium-apiuser:${{ steps.vars.outputs.sha_short }}
-    - name: latest image
-      run: docker tag deozza/appquarium-apiuser deozza/appquarium-apiuser:latest
-    - name: Push to Docker
-      run: docker push deozza/appquarium-apiuser:latest
