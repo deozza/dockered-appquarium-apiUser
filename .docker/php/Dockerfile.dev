@@ -1,4 +1,4 @@
-FROM php:7.3-fpm as base
+FROM php:7.3-fpm
 
 RUN apt-get update \
     && apt-get install -y libzip-dev zip libcurl4-openssl-dev pkg-config libssl-dev gnupg
@@ -25,47 +25,11 @@ RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls \
 ENV COMPOSER_ALLOW_SUPERUSER 1
 RUN mkdir -p /var/www/.composer && chown -R www-data /var/www/.composer
 
-FROM base as dev
-
 RUN PATH=$PATH:/var/www/apiUser/vendor/bin:bin
 
 WORKDIR /var/www/apiUser
 
 ENV APP_ENV=dev
-
-EXPOSE 9000
-
-CMD ["php-fpm"]
-
-FROM base AS test
-
-COPY apiUser/ /var/www/apiUser
-
-RUN PATH=$PATH:/var/www/apiUser/vendor/bin:bin
-
-WORKDIR /var/www/apiUser
-
-RUN composer validate \
-    && composer install --prefer-dist --no-scripts --no-progress -q -o
-
-EXPOSE 9000
-
-CMD ["php-fpm"]
-
-FROM base AS prod
-
-COPY apiUser/ /var/www/apiUser
-
-RUN PATH=$PATH:/var/www/apiUser/vendor/bin:bin
-
-WORKDIR /var/www/apiUser
-
-ENV APP_ENV=prod
-ENV CORS_ALLOW_ORIGIN="https://apigateway.appquarium.fr"
-
-RUN composer install --no-dev --optimize-autoloader --prefer-dist
-
-RUN chmod -R 777 /var/www/apiUser/var/
 
 EXPOSE 9000
 
