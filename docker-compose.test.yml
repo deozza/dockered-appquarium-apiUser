@@ -16,7 +16,7 @@ services:
     image: deozza/appquarium-apiuser
     build:
       context: .
-      dockerfile: .docker/php/Dockerfile
+      dockerfile: .docker/php/test/Dockerfile
       target: test
     container_name: appquarium-php-apiuser
     restart: on-failure
