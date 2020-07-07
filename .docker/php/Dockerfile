@@ -25,9 +25,9 @@ RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls \
 ENV COMPOSER_ALLOW_SUPERUSER 1
 RUN mkdir -p /var/www/.composer && chown -R www-data /var/www/.composer
 
-RUN PATH=$PATH:/var/www/apiUser/vendor/bin:bin
-
 FROM base as dev
+
+RUN PATH=$PATH:/var/www/apiUser/vendor/bin:bin
 
 WORKDIR /var/www/apiUser
 
@@ -41,11 +41,9 @@ FROM base AS test
 
 COPY apiUser/ /var/www/apiUser
 
-WORKDIR /var/www/apiUser
+RUN PATH=$PATH:/var/www/apiUser/vendor/bin:bin
 
-ENV APP_ENV=test
-ENV MONGODB_URL="mongodb+srv://edenn:CmzVS2udbw9aRGJx@appquarium-microservice-rjsyh.mongodb.net/test-apiuser?retryWrites=true&w=majority"
-ENV MONGODB_DB="test-apiuser"
+WORKDIR /var/www/apiUser
 
 RUN composer validate \
     && composer install --prefer-dist --no-scripts --no-progress -q -o
@@ -58,12 +56,16 @@ FROM base AS prod
 
 COPY apiUser/ /var/www/apiUser
 
+RUN PATH=$PATH:/var/www/apiUser/vendor/bin:bin
+
 WORKDIR /var/www/apiUser
 
 ENV APP_ENV=prod
 ENV CORS_ALLOW_ORIGIN="https://apigateway.appquarium.fr"
 
 RUN composer install --no-dev --optimize-autoloader --prefer-dist
+
+RUN chmod -R 777 /var/www/apiUser/var/
 
 EXPOSE 9000
 

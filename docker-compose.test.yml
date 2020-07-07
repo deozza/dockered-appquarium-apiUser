@@ -1,5 +1,17 @@
 version: '3.7'
 services:
+  appquarium-mongo-apiuser:
+    image: mongo
+    container_name: appquarium-mongo-apiuser
+    environment:
+      MONGO_INITDB_DATABASE: appquarium_apiuser
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - .docker/mongo/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    ports:
+      - 27017:27017
+
   appquarium-php-apiuser:
     image: deozza/appquarium-apiuser
     build:
