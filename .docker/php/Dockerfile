@@ -36,8 +36,6 @@ RUN PATH=$PATH:/var/www/apiUser/vendor/bin:bin
 
 WORKDIR /var/www/apiUser
 
-RUN composer install
-
 EXPOSE 9000
 
 CMD ["php-fpm"]

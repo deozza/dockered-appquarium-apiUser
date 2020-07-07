@@ -19,6 +19,4 @@ services:
       dockerfile: .docker/php/Dockerfile
     container_name: appquarium-php-apiuser
     restart: on-failure
-    environment:
-      PHP_IDE_CONFIG: serverName=test-app
     user: '1000:1000'
