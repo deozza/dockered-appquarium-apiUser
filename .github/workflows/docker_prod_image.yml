@@ -8,7 +8,7 @@ on:
       - 'apiUser/src/**'
       - 'apiUser/tests/**'
       - '.docker/**'
-      - '.github/docker_prod_image.yml'
+      - '.github/workflows/docker_prod_image.yml'
       - 'docker-compose.prod.yml'
 
 jobs:

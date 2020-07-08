@@ -11,7 +11,7 @@ on:
       - 'apiUser/src/**'
       - 'apiUser/tests/**'
       - '.docker/**'
-      - '.github/integration_testing.yml'
+      - '.github/workflows/integration_testing.yml'
       - 'docker-compose.dev.yml'
       - 'docker-compose.test.yml'
 
