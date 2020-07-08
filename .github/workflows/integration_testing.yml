@@ -11,8 +11,9 @@ on:
       - 'apiUser/src/**'
       - 'apiUser/tests/**'
       - '.docker/**'
-      - '.github/**'
-      - 'docker-compose.**'
+      - '.github/integration_testing.yml'
+      - 'docker-compose.dev.yml'
+      - 'docker-compose.test.yml'
 
 jobs:
 

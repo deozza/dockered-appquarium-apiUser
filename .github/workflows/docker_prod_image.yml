@@ -8,8 +8,8 @@ on:
       - 'apiUser/src/**'
       - 'apiUser/tests/**'
       - '.docker/**'
-      - '.github/**'
-      - 'docker-compose.**'
+      - '.github/docker_prod_image.yml'
+      - 'docker-compose.prod.yml'
 
 jobs:
 
