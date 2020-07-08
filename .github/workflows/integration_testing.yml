@@ -1,0 +1,35 @@
+name: Integration tests
+
+on:
+  push:
+    branches:
+      - backtrack
+      - hotfix
+      - develop
+      - feature
+    paths:
+      - 'apiUser/config/**'
+      - 'apiUser/src/**'
+      - 'apiUser/tests/**'
+      - '.docker/**'
+      - '.github/**'
+      - 'docker-compose.**'
+
+jobs:
+
+  CI:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker containers
+      run: docker-compose up -d
+    - name: Check composer
+      run: docker-compose exec -T -u root appquarium-php-apiuser composer validate
+    - name: Install composer dependencies
+      run: docker-compose exec -T -u root appquarium-php-apiuser composer install --prefer-dist --no-scripts --no-progress -q -o
+    - name: Create database
+      run: docker-compose exec -T -u root appquarium-php-apiuser bin/console d:m:s:c --env=test
+    - name: Load fixtures
+      run: docker-compose exec -T -u root appquarium-php-apiuser bin/console t:f:l --env=test
+    - name: Launch tests
+      run: docker-compose exec -T -u root appquarium-php-apiuser bin/phpunit

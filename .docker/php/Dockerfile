@@ -29,8 +29,6 @@ RUN PATH=$PATH:/var/www/apiUser/vendor/bin:bin
 
 WORKDIR /var/www/apiUser
 
-ENV APP_ENV=dev
-
 EXPOSE 9000
 
 CMD ["php-fpm"]
