@@ -11,8 +11,12 @@ on:
       - 'apiUser/src/**'
       - 'apiUser/tests/**'
       - '.docker/**'
-      - '.github/**'
-      - 'docker-compose.**'
+      - '.github/workflows/integration_testing.yml'
+      - 'docker-compose.dev.yml'
+      - 'docker-compose.test.yml'
+      - 'apiSpecies/composer.json'
+      - 'apiSpecies/composer.lock'
+      - 'apiSpecies/symfony.lock'
 
 jobs:
 
