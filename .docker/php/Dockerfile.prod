@@ -1,4 +1,4 @@
-FROM php:7.3-fpm as base
+FROM php:7.3-fpm
 
 RUN apt-get update \
     && apt-get install -y libzip-dev zip libcurl4-openssl-dev pkg-config libssl-dev gnupg
@@ -29,6 +29,9 @@ RUN mkdir -p /var/www/.composer && chown -R www-data /var/www/.composer
 RUN PATH=$PATH:/var/www/apiUser/vendor/bin:bin
 
 WORKDIR /var/www/apiUser
+
+ENV APP_ENV=prod
+ENV CORS_ALLOW_ORIGIN=ht://apigateway.appquarium.fr
 
 RUN composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --no-suggest --optimize-autoloader
 
