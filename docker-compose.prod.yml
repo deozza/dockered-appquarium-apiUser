@@ -8,5 +8,6 @@ services:
     container_name: appquarium-php-apiuser
     environment:
       CORS_REGEX: false
+      CORS_FORCE_ORIGIN: '*'
     restart: on-failure
     user: '1000:1000'
