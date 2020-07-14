@@ -13,6 +13,18 @@ on:
       - 'apiSpecies/composer.json'
       - 'apiSpecies/composer.lock'
       - 'apiSpecies/symfony.lock'
+  push:
+    branches: [ master ]
+    paths:
+      - 'apiSpecies/config/**'
+      - 'apiSpecies/src/**'
+      - 'apiSpecies/tests/**'
+      - '.docker/**'
+      - '.github/workflows/docker_prod_image.yml'
+      - 'docker-compose.prod.yml'
+      - 'apiSpecies/composer.json'
+      - 'apiSpecies/composer.lock'
+      - 'apiSpecies/symfony.lock'
 
 jobs:
 
