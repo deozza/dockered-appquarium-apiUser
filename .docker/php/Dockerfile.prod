@@ -32,7 +32,6 @@ WORKDIR /var/www/apiUser
 
 ENV APP_ENV=prod
 ENV CORS_ALLOW_ORIGIN=https://apigateway.appquarium.fr
-ENV CORS_REGEX=false
 ENV CORS_FORCE_ORIGIN='*'
 
 RUN composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --no-suggest --optimize-autoloader
