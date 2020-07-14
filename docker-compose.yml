@@ -18,6 +18,9 @@ services:
       context: .
       dockerfile: .docker/php/Dockerfile.dev
     container_name: appquarium-php-apiuser
+    environment:
+      CORS_REGEX: true
+      CORS_FORCE_ORIGIN: '~'
     restart: on-failure
     user: '1000:1000'
     ports:
