@@ -35,7 +35,7 @@ ENV APP_ENV=prod
 RUN composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --no-suggest --optimize-autoloader
 
 RUN mkdir -p var/cache \
-    && chmod -R 777 var/cache
+    && chmod -R 777 var
 
 EXPOSE 9000
 
