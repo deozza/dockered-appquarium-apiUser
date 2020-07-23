@@ -29,9 +29,6 @@ RUN PATH=$PATH:/var/www/apiUser/vendor/bin:bin
 
 WORKDIR /var/www/apiUser
 
-RUN composer validate \
-    && composer install --prefer-dist --no-scripts
-
 EXPOSE 9000
 
 CMD ["php-fpm"]

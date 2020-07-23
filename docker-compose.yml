@@ -18,7 +18,8 @@ services:
       context: .
       dockerfile: .docker/php/Dockerfile.dev
     container_name: appquarium-php-apiuser
+    volumes:
+    - ./apiUser/:/var/www/apiUser
     restart: on-failure
-    user: '1000:1000'
     ports:
     - 8001:8001
