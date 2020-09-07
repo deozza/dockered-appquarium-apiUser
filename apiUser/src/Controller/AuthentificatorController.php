@@ -1,7 +1,6 @@
 <?php
 namespace App\Controller;
 
-use App\Serializer\FormErrorsSerializer;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Firebase\JWT\JWT;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,9 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-use App\Form\PostTokenType;
 use App\Document\Credentials;
 use App\Document\User;
+use App\Form\PostTokenType;
+use App\Serializer\FormErrorsSerializer;
 
 /**
  * @Route("api/token")
@@ -28,7 +28,7 @@ class AuthentificatorController extends AbstractController
     }
 
     /**
-     *@Route("", name = "post_token", methods = {"POST"})
+     * @Route("", name = "post_token", methods = {"POST"})
      */
     public function postTokenAction(Request $request, UserPasswordEncoderInterface $encoder): JsonResponse
     {

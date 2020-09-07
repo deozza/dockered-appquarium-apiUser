@@ -7,7 +7,6 @@ use Firebase\JWT\JWT;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,7 +17,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 use App\Document\User;
 use App\Form\PatchCurrentUserPasswordType;
 use App\Form\PatchCurrentUserType;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class UserController extends AbstractController
 {
