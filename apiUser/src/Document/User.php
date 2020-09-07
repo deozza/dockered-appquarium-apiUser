@@ -21,38 +21,67 @@ use App\Repository\UserRepository;
 /**
  * @ApiResource(
  *     collectionOperations={
- *          "get"={},
+ *          "get"={
+ *     			"openapi_context"={
+ *     				"summary"="List",
+ *     				"description"="Get the list of registered users"
+ * 				}
+ *	 		},
  *          "post"={
  *     			"normalization_context"={"groups"={"user:read"}},
- *     			"validation_groups"={"Default", "postValidation"}
+ *     			"validation_groups"={"Default", "postValidation"},
+ *     			"openapi_context"={
+ *     				"summary"="Register",
+ *     				"description"="Register as a new user"
+ * 				}
  *	 		},
  *          "get_current"={
  *     			"route_name"="api_get_users_current",
  *     			"method"="GET",
- *     			"normalization_context"={"groups"={"user:read"}}
+ *     			"normalization_context"={"groups"={"user:read"}},
+ *     			"openapi_context"={
+ *     				"summary"="Current profile",
+ *     				"description"="Get current logged in user profile"
+ * 				}
  *	 		},
  *     		"patch_current"={
  *     			"route_name"="api_patch_users_current",
  *     			"method"="PATCH",
  *     			"path"="/api/users/current",
  *     			"normalization_context"={"groups"={"user:read"}},
- *     			"denormalization_context"={"groups"={"user:update"}}
+ *     			"denormalization_context"={"groups"={"user:update"}},
+ *     			"openapi_context"={
+ *     				"summary"="Profile",
+ *     				"description"="Update the current logged in user profile"
+ * 				}
  *	 		},
  *     		"patch_current_password"={
  *     			"route_name"="api_patch_users_current_password",
  *     			"method"="PATCH",
  *     			"path"="/api/users/current/password",
  *     			"normalization_context"={"groups"={"user:read"}},
- *     			"denormalization_context"={"groups"={"user:update"}}
+ *     			"denormalization_context"={"groups"={"user:update:password"}},
+ *     			"openapi_context"={
+ *     				"summary"="Password",
+ *     				"description"="Update the current logged in user password"
+ * 				}
  *	 		}
  *     },
  *     itemOperations={
  *          "get"={
- *     			"requirements"={"id"="\d+"}
+ *     			"requirements"={"id"="\d+"},
+ *     			"openapi_context"={
+ *     				"summary"="Specific profile",
+ *     				"description"="Get the profile of a specific user"
+ * 				}
  * 			},
  *          "patch"={
  *     			"requirements"={"id"="\d+"},
- *     			"denormalization_context"={"groups"={"user:admin:update", "user:update"}, "allow_extra_attributes"=false}
+ *     			"denormalization_context"={"groups"={"user:admin:update", "user:update"}, "allow_extra_attributes"=false},
+ *     			"openapi_context"={
+ *     				"summary"="Specific profile",
+ *     				"description"="Patch the profile of a specific user"
+ * 				}
  *	 		}
  *     },
  *     normalizationContext={
@@ -105,7 +134,15 @@ class User implements UserInterface
     protected $id;
 
     /**
-     * @ApiProperty(iri="https://schema.org/name")
+     * @ApiProperty(
+	 *     iri="https://schema.org/name",
+	 *     attributes={
+	 *     		"openapi_context"={
+	 *     			"type"="string",
+	 *     			"example"="johndoe"
+	 *     		}
+	 *	 	}
+	 *	 )
      * @ODM\Field(type="string")
      * @Groups({"user:read", "user:write", "user:update"})
      * @Assert\NotBlank()
@@ -113,7 +150,15 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @ApiProperty(iri="https://schema.org/email")
+     * @ApiProperty(
+	 *     iri="https://schema.org/email",
+	 *     attributes={
+	 *     		"openapi_context"={
+	 *     			"type"="email",
+	 *     			"example"="johndoe@mail.com"
+	 *     		}
+	 *	 	}
+	 *	 )
      * @ODM\Field(type="string")
      * @Groups({"user:read", "user:write", "user:update"})
      * @Assert\NotBlank()
@@ -122,20 +167,44 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @Groups({"user:update"})
+	 * @ApiProperty(
+	 *     iri="https://schema.org/accessCode",
+	 *     attributes={
+	 *     		"openapi_context"={
+	 *     			"type"="string"
+	 *     		}
+	 *	 	}
+	 *	 )
+	 * @Groups({"user:update", "user:update:password"})
      * @SerializedName("password")
      */
     private $plainPassword;
 
     /**
-     * @Groups({"user:write", "user:update"})
+	 * @ApiProperty(
+	 *     iri="https://schema.org/accessCode",
+	 *     attributes={
+	 *     		"openapi_context"={
+	 *     			"type"="string"
+	 *     		}
+	 *	 	}
+	 *	 )
+	 * @Groups({"user:write", "user:update", "user:update:password"})
 	 * @Assert\NotBlank(groups={"postValidation"})
      * @SerializedName("password")
      */
     private $newPassword;
 
     /**
-     * @Groups({"user:write", "user:update"})
+	 * @ApiProperty(
+	 *     iri="https://schema.org/accessCode",
+	 *     attributes={
+	 *     		"openapi_context"={
+	 *     			"type"="string"
+	 *     		}
+	 *	 	}
+	 *	 )
+     * @Groups({"user:write", "user:update", "user:update:password"})
 	 * @Assert\NotBlank(groups={"postValidation"})
      * @Assert\EqualTo(
      *     propertyPath="newPassword",
@@ -145,6 +214,14 @@ class User implements UserInterface
     private $repeatPassword;
 
     /**
+	 * @ApiProperty(
+	 *     iri="https://schema.org/accessCode",
+	 *     attributes={
+	 *     		"openapi_context"={
+	 *     			"type"="string"
+	 *     		}
+	 *	 	}
+	 *	 )
      * @ODM\Field(type="string")
      */
     private $password;
@@ -163,20 +240,20 @@ class User implements UserInterface
 
     /**
      * @ApiProperty(iri="https://schema.org/dateCreated")
+	 * @Groups({"user:read"})
      * @ODM\Field(type="date")
-     * @Groups({"user:read"})
      */
     private $registerDate;
 
     /**
+	 * @Groups({"user:read:admin", "user:admin:update"})
      * @ODM\Field(type="boolean")
-     * @Groups({"user:read:admin", "user:admin:update"})
      */
     private $active;
 
     /**
+	 * @Groups({"user:read:admin", "user:admin:update", "user:read"})
      * @ODM\Field(type="collection")
-     * @Groups({"user:read:admin", "user:admin:update", "user:read"})
 	 */
     private $roles = [];
 
