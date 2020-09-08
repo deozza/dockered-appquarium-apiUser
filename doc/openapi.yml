@@ -1,0 +1,690 @@
+openapi: 3.0.2
+info:
+  title: user.appquarium.fr
+  version: 1.0.0
+paths:
+  /api/users:
+    get:
+      summary: List
+      description: 'Get the list of registered users'
+      tags:
+        - User
+      operationId: getUserCollection
+      responses:
+        200:
+          description: 'User collection response'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/User:jsonld-Read' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User-Read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User-Read'
+      parameters:
+        -
+          name: username
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: email
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: active
+          in: query
+          required: false
+          schema:
+            type: boolean
+        -
+          name: 'order[username]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[email]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[lastLogin]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[registerDate]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+            default: 1
+        -
+          name: itemsPerPage
+          in: query
+          required: false
+          description: 'The number of items per page'
+          schema:
+            type: integer
+            default: 30
+            minimum: 0
+    post:
+      summary: Register
+      description: 'Register as a new user'
+      tags:
+        - User
+      operationId: postUserCollection
+      responses:
+        201:
+          description: 'User resource created'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/User:jsonld-user:read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User-user:read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/User-user:read'
+          links:
+            GetUserItem:
+              parameters:
+                id: '$response.body#/id'
+              operationId: getUserItem
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /api/users/{id}`.'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/User:jsonld-Write'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User-Write'
+          text/html:
+            schema:
+              $ref: '#/components/schemas/User-Write'
+        description: 'The new User resource'
+  /api/users/current:
+    get:
+      summary: 'Current profile'
+      description: 'Get current logged in user profile'
+      tags:
+        - User
+      operationId: get_currentUserCollection
+      responses:
+        200:
+          description: 'User collection response'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/User:jsonld-user:read' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User-user:read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User-user:read'
+      parameters:
+        -
+          name: username
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: email
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: active
+          in: query
+          required: false
+          schema:
+            type: boolean
+        -
+          name: 'order[username]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[email]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[lastLogin]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[registerDate]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: page
+          in: query
+          required: false
+          description: 'The collection page number'
+          schema:
+            type: integer
+            default: 1
+        -
+          name: itemsPerPage
+          in: query
+          required: false
+          description: 'The number of items per page'
+          schema:
+            type: integer
+            default: 30
+            minimum: 0
+    patch:
+      summary: Profile
+      description: 'Update the current logged in user profile'
+      tags:
+        - User
+      operationId: patch_currentUserCollection
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'User resource updated'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/User:jsonld-user:read' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User-user:read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User-user:read'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/User-user:update'
+        description: 'The updated User resource'
+  /api/users/current/password:
+    patch:
+      summary: Password
+      description: 'Update the current logged in user password'
+      tags:
+        - User
+      operationId: patch_current_passwordUserCollection
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'User resource updated'
+          content:
+            application/ld+json:
+              schema:
+                type: object
+                properties:
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/User:jsonld-user:read' } }
+                  'hydra:totalItems': { type: integer, minimum: 0 }
+                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
+                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
+                required:
+                  - 'hydra:member'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User-user:read'
+            text/html:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User-user:read'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/User-user:update:password'
+        description: 'The updated User resource'
+  '/api/users/{id}':
+    get:
+      summary: 'Specific profile'
+      description: 'Get the profile of a specific user'
+      tags:
+        - User
+      operationId: getUserItem
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'User resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/User:jsonld-Read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User-Read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/User-Read'
+        404:
+          description: 'Resource not found'
+    patch:
+      summary: 'Specific profile'
+      description: 'Patch the profile of a specific user'
+      tags:
+        - User
+      operationId: patchUserItem
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'User resource updated'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/User:jsonld-Read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User-Read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/User-Read'
+        400:
+          description: 'Invalid input'
+        404:
+          description: 'Resource not found'
+      requestBody:
+        content:
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/User-user:admin:update_user:update'
+        description: 'The updated User resource'
+components:
+  schemas:
+    User-Read:
+      type: object
+      description: ''
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        username:
+          type: string
+          example: johndoe
+          externalDocs:
+            url: 'https://schema.org/name'
+        email:
+          type: email
+          example: johndoe@mail.com
+          externalDocs:
+            url: 'https://schema.org/email'
+        lastLogin:
+          type: string
+          format: date-time
+        lastFailedLogin:
+          type: string
+          format: date-time
+        registerDate:
+          readOnly: true
+          externalDocs:
+            url: 'https://schema.org/dateCreated'
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        roles:
+          type: array
+          items:
+            type: string
+      required:
+        - username
+        - email
+    User-Write:
+      type: object
+      description: ''
+      required:
+        - username
+        - email
+      properties:
+        username:
+          type: string
+          example: johndoe
+          externalDocs:
+            url: 'https://schema.org/name'
+        email:
+          type: email
+          example: johndoe@mail.com
+          externalDocs:
+            url: 'https://schema.org/email'
+        password:
+          type: string
+          externalDocs:
+            url: 'https://schema.org/accessCode'
+        repeatPassword:
+          type: string
+          externalDocs:
+            url: 'https://schema.org/accessCode'
+    'User-user:admin:update_user:update':
+      type: object
+      description: ''
+      required:
+        - username
+        - email
+      properties:
+        username:
+          type: string
+          example: johndoe
+          externalDocs:
+            url: 'https://schema.org/name'
+        email:
+          type: email
+          example: johndoe@mail.com
+          externalDocs:
+            url: 'https://schema.org/email'
+        password:
+          type: string
+          externalDocs:
+            url: 'https://schema.org/accessCode'
+        repeatPassword:
+          type: string
+          externalDocs:
+            url: 'https://schema.org/accessCode'
+        active:
+          type: boolean
+        roles:
+          type: array
+          items:
+            type: string
+    'User-user:read':
+      type: object
+      description: ''
+      required:
+        - username
+        - email
+      properties:
+        username:
+          type: string
+          example: johndoe
+          externalDocs:
+            url: 'https://schema.org/name'
+        email:
+          type: email
+          example: johndoe@mail.com
+          externalDocs:
+            url: 'https://schema.org/email'
+        lastLogin:
+          type: string
+          format: date-time
+        registerDate:
+          readOnly: true
+          externalDocs:
+            url: 'https://schema.org/dateCreated'
+          type: string
+          format: date-time
+        roles:
+          type: array
+          items:
+            type: string
+    'User-user:update':
+      type: object
+      description: ''
+      required:
+        - username
+        - email
+      properties:
+        username:
+          type: string
+          example: johndoe
+          externalDocs:
+            url: 'https://schema.org/name'
+        email:
+          type: email
+          example: johndoe@mail.com
+          externalDocs:
+            url: 'https://schema.org/email'
+        password:
+          type: string
+          externalDocs:
+            url: 'https://schema.org/accessCode'
+        repeatPassword:
+          type: string
+          externalDocs:
+            url: 'https://schema.org/accessCode'
+    'User-user:update:password':
+      type: object
+      description: ''
+    'User:jsonld-Read':
+      type: object
+      description: ''
+      properties:
+        '@context':
+          readOnly: true
+          type: string
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        id:
+          readOnly: true
+          type: integer
+        username:
+          type: string
+          example: johndoe
+          externalDocs:
+            url: 'https://schema.org/name'
+        email:
+          type: email
+          example: johndoe@mail.com
+          externalDocs:
+            url: 'https://schema.org/email'
+        lastLogin:
+          type: string
+          format: date-time
+        lastFailedLogin:
+          type: string
+          format: date-time
+        registerDate:
+          readOnly: true
+          externalDocs:
+            url: 'https://schema.org/dateCreated'
+          type: string
+          format: date-time
+        active:
+          type: boolean
+        roles:
+          type: array
+          items:
+            type: string
+      required:
+        - username
+        - email
+    'User:jsonld-Write':
+      type: object
+      description: ''
+      required:
+        - username
+        - email
+      properties:
+        '@context':
+          readOnly: true
+          type: string
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        username:
+          type: string
+          example: johndoe
+          externalDocs:
+            url: 'https://schema.org/name'
+        email:
+          type: email
+          example: johndoe@mail.com
+          externalDocs:
+            url: 'https://schema.org/email'
+        password:
+          type: string
+          externalDocs:
+            url: 'https://schema.org/accessCode'
+        repeatPassword:
+          type: string
+          externalDocs:
+            url: 'https://schema.org/accessCode'
+    'User:jsonld-user:read':
+      type: object
+      description: ''
+      required:
+        - username
+        - email
+      properties:
+        '@context':
+          readOnly: true
+          type: string
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+        username:
+          type: string
+          example: johndoe
+          externalDocs:
+            url: 'https://schema.org/name'
+        email:
+          type: email
+          example: johndoe@mail.com
+          externalDocs:
+            url: 'https://schema.org/email'
+        lastLogin:
+          type: string
+          format: date-time
+        registerDate:
+          readOnly: true
+          externalDocs:
+            url: 'https://schema.org/dateCreated'
+          type: string
+          format: date-time
+        roles:
+          type: array
+          items:
+            type: string
