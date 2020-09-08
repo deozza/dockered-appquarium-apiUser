@@ -1,10 +1,46 @@
 <?php
 namespace App\Document;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
+
 class Credentials
 {
+	/**
+	 * @ApiProperty(
+	 *     iri="https://schema.org/name",
+	 *     attributes={
+	 *     		"openapi_context"={
+	 *     			"type"="string",
+	 *     			"example"="johndoe"
+	 *     		}
+	 *	 	}
+	 *	 )
+	 */
     private $login;
+
+	/**
+	 * @ApiProperty(
+	 *     iri="https://schema.org/accessCode",
+	 *     attributes={
+	 *     		"openapi_context"={
+	 *     			"type"="string"
+	 *     		}
+	 *	 	}
+	 *	 )
+	 */
     private $password;
+
+	/**
+	 * @ApiProperty(
+	 *     iri="https://schema.org/Boolean",
+	 *     attributes={
+	 *     		"openapi_context"={
+	 *     			"type"="boolean",
+	 *     			"example"="true"
+	 *     		}
+	 *	 	}
+	 *	 )
+	 */
     private $rememberMe;
 
     public function getLogin(): ?string
@@ -34,7 +70,7 @@ class Credentials
         return $this->password;
     }
 
-    public function setRememberMe($rememberMe): ?self
+    public function setRememberMe(bool $rememberMe): ?self
     {
         $this->rememberMe = $rememberMe;
         return $this;

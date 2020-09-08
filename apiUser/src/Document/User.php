@@ -128,6 +128,15 @@ use App\Repository\UserRepository;
 class User implements UserInterface
 {
     /**
+	 * @ApiProperty(
+	 *     iri="https://schema.org/identifier",
+	 *     attributes={
+	 *     		"openapi_context"={
+	 *     			"type"="integer",
+	 *     			"example"="1"
+	 *     		}
+	 *	 	}
+	 *	 )
      * @ODM\Id(strategy="INCREMENT", type="integer")
      * @Groups({"user:read:admin"})
      */
@@ -227,31 +236,76 @@ class User implements UserInterface
     private $password;
 
     /**
+	 * @ApiProperty(
+	 *     iri="https://schema.org/DateTime",
+	 *     attributes={
+	 *     		"openapi_context"={
+	 *     			"type"="\DateTime",
+	 *     			"example"="2020-01-01 12:30:00"
+	 *     		}
+	 *	 	}
+	 *	 )
      * @ODM\Field(type="date")
      * @Groups({"user:read"})
      */
     private $lastLogin;
 
     /**
+	 * @ApiProperty(
+	 *     iri="https://schema.org/DateTime",
+	 *     attributes={
+	 *     		"openapi_context"={
+	 *     			"type"="\DateTime",
+	 *     			"example"="2020-01-01 12:30:00"
+	 *     		}
+	 *	 	}
+	 *	 )
      * @ODM\Field(type="date")
      * @Groups({"user:read:admin"})
      */
     private $lastFailedLogin;
 
     /**
-     * @ApiProperty(iri="https://schema.org/dateCreated")
+	 * @ApiProperty(
+	 *     iri="https://schema.org/dateCreated",
+	 *     attributes={
+	 *     		"openapi_context"={
+	 *     			"type"="\DateTime",
+	 *     			"example"="2020-01-01 12:30:00"
+	 *     		}
+	 *	 	}
+	 *	 )
+	 *
 	 * @Groups({"user:read"})
      * @ODM\Field(type="date")
      */
     private $registerDate;
 
     /**
+	 * @ApiProperty(
+	 *     iri="https://schema.org/Boolean",
+	 *     attributes={
+	 *     		"openapi_context"={
+	 *     			"type"="boolean",
+	 *     			"example"="true"
+	 *     		}
+	 *	 	}
+	 *	 )
 	 * @Groups({"user:read:admin", "user:admin:update"})
      * @ODM\Field(type="boolean")
      */
     private $active;
 
     /**
+	 * @ApiProperty(
+	 *     iri="https://schema.org/OrganizationRole",
+	 *     attributes={
+	 *     		"openapi_context"={
+	 *     			"type"="array",
+	 *     			"example"="[ROLE_USER]"
+	 *     		}
+	 *	 	}
+	 *	 )
 	 * @Groups({"user:read:admin", "user:admin:update", "user:read"})
      * @ODM\Field(type="collection")
 	 */
