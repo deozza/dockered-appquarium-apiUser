@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Controller;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use App\Document\User;
+use App\Tests\Utils;
 
 class UserTest extends ApiTestCase
 {
