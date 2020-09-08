@@ -70,8 +70,11 @@ class Credentials
         return $this->password;
     }
 
-    public function setRememberMe(bool $rememberMe): ?self
+    public function setRememberMe(?bool $rememberMe): ?self
     {
+    	if(empty($rememberMe))
+    		$rememberMe = false;
+
         $this->rememberMe = $rememberMe;
         return $this;
     }
